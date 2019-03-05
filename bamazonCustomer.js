@@ -38,11 +38,13 @@ function amazonSearch() {
         break;
 
         case "How many units would you like to buy?":
-        unitSearch();
+        // unitSearch();
         break;
         }
     });
 }
+
+
 
 function productSearch() {
     inquirer
@@ -51,29 +53,38 @@ function productSearch() {
         type: "input",
     })
    .then(function(answer) {
-    var query = "Select product name?";
-    connection.query(query, {product_name: answer.product }, function(err, res) {
+    var query = "SELECT * FROM bamazonDB.products";
+    connection.query(query, {item_id: answer.product }, function(err, res) {
         for (var i = 0; i < res.length; i++) {
-            console.log(res[i].prooduct);
+            console.log(
+                "Item: " + res[i].item_id + 
+                " || Product Name: " + res [i].product_name + 
+                " || Departmnet Name: " + res [i].department_name + 
+                " || Price: " + res [i].price +
+                " || Stock Quanity: " + res [i].stock_quanity
+                );
         }
         amazonSearch();
     });
    });
 }
 
-function unitSearch() {
-    inquirer
-        .prompt ({
-        name: "units",
-        type: "input",
-    })
-   .then(function(answer) {
-    var query = "Select number of units?";
-    connection.query(query, {stock_quanity: answer.units }, function(err, res) {
-        for (var i = 0; i < res.length; i++) {
-            console.log(res[i].units);
-        }
-        amazonSearch();
-    });
-   });
-}
+
+
+
+// function unitSearch() {
+//     inquirer
+//         .prompt ({
+//         name: "units",
+//         type: "input",
+//     })
+//    .then(function(answer) {
+//     var query = "Select number of units?";
+//     connection.query(query, {stock_quanity: answer.units }, function(err, res) {
+//         for (var i = 0; i < res.length; i++) {
+//             console.log(res[i].units);
+//         }
+//         amazonSearch();
+//     });
+//    });
+// }
