@@ -52,29 +52,29 @@ function amazonSearch() {
 }
 
 // Updated table when order is filled
-function newQuantity() {
-    inquirer.prompt({
-        name: "new",
-        type: "input",
-        message: [
-            "New table data!"
-        ]
-    })
-    .then(function (answer) {
-        var newQuantity = parseInt(res[0].stock_quantity - answer.quantity);
-        console.log("new");
-        connection.query(
-            "UPDATE products SET ? WHERE",
-            [{
-                stock_quantity: newQuantity,
-                product_id: (res[0].price * answer.quantity)
-            },
-            {
-                item_id: answer.product_id
-            }],
-        )
-    });
-}
+// function newQuantity() {
+//     inquirer.prompt({
+//         name: "new",
+//         type: "input",
+//         message: [
+//             "New table data!"
+//         ]
+//     })
+//     .then(function (answer) {
+//         var newQuantity = parseInt(res[0].stock_quantity - answer.quantity);
+//         console.log("new");
+//         connection.query(
+//             "UPDATE products SET ? WHERE",
+//             [{
+//                 stock_quantity: newQuantity,
+//                 product_id: (res[0].price * answer.quantity)
+//             },
+//             {
+//                 item_id: answer.product_id
+//             }],
+//         )
+//     });
+// }
 
 
 // Place the order and check to see if store has enough
@@ -126,7 +126,7 @@ function productSearch(product_id) {
             if (answer.new === "y") {
                 console.log("Ok, no problem!");
                 amazonSearch();
-                newQuantity();
+                // newQuantity();
             }
 
             else if (answer.new === "n") {
