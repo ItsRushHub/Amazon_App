@@ -14,25 +14,25 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) console.log(err);
     console.log("Connected as id: " + connection.threadId);
-    amazonSearch();
+    // amazonSearch();
+    viewProducts();
+})
+
+// The app starts and the store data prints out
+function viewProducts() {
+    connection.query("SELECT * FROM products", function(err, res) {
+        if(err) throw err;
+
+        console.log("Welcome To The Amazing bAmazon Store!! \n");
+        
+        console.log("============================================================================================================================");
+
+        for(var i = 0; i < res.length; i++) {
+            console.log("ID: " + res[i].item_id + " | " + "Product: " + res[i].product_name + " | " + "Department: " + res[i].department_name + " | " + "Price: " + res[i].price + " | " + "Stock Quanity: " + res[i].stock_quantity);
+            console.log("============================================================================================================================");
+        }
+        amazonSearch();
 });
-
-
-
-// function viewProducts(products) {
-//     connection.query("SELECT * FROM bamazonDB.products", function(err, res) {
-//         if(err) throw err;
-
-//         console.log("Welcome To The BAmazon Store");
-//         console.log("=====================================");
-
-//         for(var i = 0; i < res.length; i++) {
-//             console.log("ID: " + res[i].item_id + " | " + "Product: " + res[i].product_name + " | " + "Department: " + res[i].department_name + " | " + "Price: " + res[i].price + " | " + "Stock Quanity: " + res[i].stock_quantity);
-//             console.log("======================================================================")
-//         }
-//         amazonSearch();
-// });
-
 
 
 // The user messages
@@ -50,6 +50,33 @@ function amazonSearch() {
             }
         });
 }
+
+
+
+// function newQuantity() {
+//     inquirer.prompt({
+//         name: "new",
+//         type: "input",
+//         message: [
+//             "New table data!"
+//         ]
+//     })
+//     .then(function (answer) {
+//         var newQuantity = parseInt(res[0].stock_quantity - answer.quantity);
+//         console.log("new");
+//         connection.query(
+//             "UPDATE products SET ? WHERE",
+//             [{
+//                 stock_quantity: newQuantity,
+//                 product_id: (res[0].price - answer.quantity)
+//             },
+//             {
+//                 item_id: answer.product_id
+//             }],
+//         )
+//     });
+// }
+
 
 
 // Place the order and check to see if store has enough
@@ -78,12 +105,13 @@ function productSearch(product_id) {
                 else { // if no results - error
                     console.log('Not enough inventory!');
                 }
-                // amazonSearch();
                 newSearch();
             });
         });
+}
 
 
+// Ask the customer if they want to make another purchase or not
     var y = "yes";
     var n = "no";
 
@@ -107,5 +135,5 @@ function productSearch(product_id) {
             }
             
         });
+    };
     }
-}
